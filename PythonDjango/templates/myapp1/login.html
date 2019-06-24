@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+</head>
+<body>
+<form>
+    <div>
+        <label> for ="user">用户名:</label>
+        <input type="text" name="usr" id="user" placeholder="请输入用户名" required="required"/>
+        <br/>
+        <label for="pwd">密码:</label>
+        <input type="password" name="pwd" id="pwd" placeholder="请输入密码" required="required"/>
+        <br/>
+        <input type="submit" value="登录"/>
+        <br/>
+        {%if msg%}
+        <span>
+            {{msg}}
+        </span>
+        {%endif%}
+    </div>
+</form>
+</body>
+</html>

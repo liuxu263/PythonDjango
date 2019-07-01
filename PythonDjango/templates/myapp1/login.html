@@ -5,9 +5,10 @@
     <title>登录页面</title>
 </head>
 <body>
-<form>
+<form method="post" action="/myapp1/login/">
+    {% csrf_token %}
     <div>
-        <label> for ="user">用户名:</label>
+        <label for="user">用户名:</label>
         <input type="text" name="usr" id="user" placeholder="请输入用户名" required="required"/>
         <br/>
         <label for="pwd">密码:</label>

@@ -14,7 +14,7 @@ from django.shortcuts import render, redirect
 from .models import Test1
 
 
-def hoempage(request):
+def homepage(request):
     return render(request, "homepage.html")
 
 

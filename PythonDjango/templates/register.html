@@ -5,12 +5,12 @@
     <title>注册页面</title>
 </head>
 <body>
-<form>
+<form method="post" action="/lx/register/">
     {% csrf_token %}
     <table>
         <tr>
             <td>昵称:</td>
-            <td><input type="text" name="account" id="account" placeholder="请输入昵称" required="required"/>
+            <td><input type="text" name="nickname" id="nickname" placeholder="请输入昵称" required="required"/>
             </td>
         </tr>
         <tr>
@@ -52,8 +52,8 @@
             </td>
         </tr>
         <tr>
-            <td>年龄:</td>
-            <td><input type="text" name="age" id="age" placeholder="请输入年龄" required="required"/>
+            <td>身份证号:</td>
+            <td><input type="text" name="IDCard" id="IDCard" placeholder="请输入身份证号" required="required"/>
             </td>
         </tr>
         <tr>
@@ -68,7 +68,7 @@
         </tr>
         <tr>
             <td>县:</td>
-            <td><input type="text" name="" id="county" placeholder="请输入县城" required="required"/>
+            <td><input type="text" name="county" id="county" placeholder="请输入县城" required="required"/>
             </td>
         </tr>
         <tr>

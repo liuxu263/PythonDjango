@@ -6,10 +6,10 @@
 __author__ = 'lx'
 
 from django.shortcuts import render
-from .check_nickname import *
-from .check_password import *
-from .check_phone import *
-from .check_email import *
+from PythonDjango.apps.lx.lx_user.check_register.check_nickname import *
+from PythonDjango.apps.lx.lx_user.check_register.check_password import *
+from PythonDjango.apps.lx.lx_user.check_register.check_phone import *
+from PythonDjango.apps.lx.lx_user.check_register.check_email import *
 from _md5 import md5
 
 

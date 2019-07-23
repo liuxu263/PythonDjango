@@ -7,8 +7,8 @@ __author__ = 'lx'
 
 from django.urls import path
 from django.conf.urls import url, include
-from .lxuser import registerviews
+from .lx_user import register_views
 
 urlpatterns = [
-    url(r'register/', registerviews.register)
+    url(r'register/', register_views.register)
 ]

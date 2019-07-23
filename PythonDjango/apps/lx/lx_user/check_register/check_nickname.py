@@ -5,7 +5,7 @@
 
 __author__ = 'lx'
 
-from ..models import User
+from PythonDjango.apps.lx.models import User
 
 
 def check_nickname_diff(nickname):

@@ -19,9 +19,6 @@ from django.conf.urls import url, include
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('hrs/', include('hrs.urls'))
-    # url(r'lx/', include("lx.urls")),
-    # url(r'^homepage/', views.homepage),
-    # url(r'^register', views.register)
+    path('admin/', admin.site.urls)
+
 ]

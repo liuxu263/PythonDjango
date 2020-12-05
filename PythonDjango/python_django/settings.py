@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'lx'
 ]
 
 MIDDLEWARE = [
@@ -75,10 +74,10 @@ WSGI_APPLICATION = 'python_django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # 或者使用 mysql.connector.django
-        'NAME': 'python_django',
+        'NAME': 'pythondjango',
         'USER': 'root',
-        'PASSWORD': '12345678',
-        'HOST': 'localhost',
+        'PASSWORD': 'liuxu',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
     }
 }

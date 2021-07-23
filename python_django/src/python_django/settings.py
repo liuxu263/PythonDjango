@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'user'
 ]
 
 MIDDLEWARE = [
@@ -76,12 +77,29 @@ WSGI_APPLICATION = 'python_django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # 或者使用 mysql.connector.django
-        'NAME': 'pythondjango',
+        'NAME': 'lx',
         'USER': 'root',
-        'PASSWORD': 'liuxu',
+        'PASSWORD': 'liuxu263',
         'HOST': '127.0.0.1',
         'PORT': '3306',
-    }
+    },
+    'slave1': {
+        'ENGINE': 'django.db.backends.mysql',  # 或者使用 mysql.connector.django
+        'NAME': 'lx',
+        'USER': 'root',
+        'PASSWORD': 'liuxu263',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    },
+    'slave2': {
+        'ENGINE': 'django.db.backends.mysql',  # 或者使用 mysql.connector.django
+        'NAME': 'lx',
+        'USER': 'root',
+        'PASSWORD': 'liuxu263',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    },
+
 }
 
 # Password validation

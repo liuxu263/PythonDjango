@@ -1,0 +1,27 @@
+date
+if [ -z $1 ]; then
+  echo "you must input a port"
+  exit 1
+fi
+
+PID=$(lsof -i:8000 | awk '{print $2}' | sed -n '2p')
+# PID=$(netstat -nlp | grep ":$1" | awk '{print $7}' | awk -F '[ / ]' '{print $1}')
+
+if [ $? == 0 ]; then
+  if [ ${PID} ] >0; then
+    echo "process id is: ${PID}"
+    kill -9 ${PID}
+    if [ $? == 0 ]; then
+      echo "kill ${PID} success"
+    else
+      echo "kill ${PID} fail"
+    fi
+  else
+    echo "port not use"
+  fi
+else
+  echo "process $1 no exit"
+fi
+
+python ./python_django/src/manage.py runserver localhost:8000
+echo $?

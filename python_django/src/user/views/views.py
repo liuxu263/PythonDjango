@@ -1,14 +1,17 @@
 import json
 
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic.detail import DetailView
-from django.utils import timezone
-from django.http import HttpRequest
 from django.http import HttpResponse
+
+from python_django.config.response_code_msg import ERROR_REQUEST_METHOD
+from python_django.config.response_code_msg import ERROR_PARAM
+from python_django.config.response_code_msg import ERROR_DATA
+from python_django.config.response_code_msg import SUCCESS
+
+from ..services import services1
 
 
 # Create your views here.
-
 
 @csrf_exempt
 def hello_world(request):
@@ -24,44 +27,78 @@ def session(request):
         # PUT /session # 更新会话信息
         # DELETE /session # 销毁当前会话（登出）
         if request.method == "POST":
-            return HttpResponse("post")
+            env = request.POST.get["env"]
+            data = services1.service1_select(env)
+            if data:
+                response = SUCCESS
+                response["data"] = data
+            else:
+                raise ValueError
         if request.method == "GET":
             return HttpResponse("get")
         if request.method == "PUT":
             return HttpResponse("put")
         if request.method == "DELETE":
             return HttpResponse("delete")
+        else:
+            response = ERROR_REQUEST_METHOD
     except ValueError:
-        pass
-    except Exception as e:
-        print(e)
+        response = ERROR_DATA
+    except KeyError:
+        response = ERROR_PARAM
     finally:
-        # return HttpResponse(json.dumps(response))
-        pass
+        return HttpResponse(json.dumps(response, ensure_ascii=False))
 
 
 @csrf_exempt
 def user(request, user_id):
     response = {}
-    print(user_id)
     try:
-        # GET /user/:id # 获取id用户的信息
-        # POST /user # 创建新的用户（注册）
-        # PUT /user/:id # 更新id用户的信息
-        # DELETE /user/:id # 删除id用户（注销）
-        if request.method == "POST":
-            return HttpResponse("post")
+        # GET /user1/:id # 获取id用户的信息
+        # POST /user1 # 创建新的用户（注册）
+        # PUT /user1/:id # 更新id用户的信息
+        # DELETE /user1/:id # 删除id用户（注销）
         if request.method == "GET":
-            return HttpResponse("get")
-        if request.method == "PUT":
-            return HttpResponse("put")
-        if request.method == "DELETE":
-            return HttpResponse("delete")
+            if not user_id:
+                raise KeyError
+            env = request.POST.get["env"]
+            data = services1.service1_select(env)
+            if data:
+                response["data"] = data
+            else:
+                raise ValueError
+        elif request.method == "POST":
+            if not user_id:
+                raise KeyError
+            env = request.POST["env"]
+            data = services1.service1_update(env)
+            if data:
+                response["data"] = data
+            else:
+                raise ValueError
+        elif request.method == "PUT":
+            if not user_id:
+                raise KeyError
+            env = request.POST["env"]
+            data = services1.service1_insert(env)
+            if data:
+                response["data"] = data
+            else:
+                raise ValueError
+        elif request.method == "DELETE":
+            if not user_id:
+                raise KeyError
+            env = request.POST["env"]
+            data = services1.service1_delete(env)
+            if data:
+                response["data"] = data
+            else:
+                raise ValueError
+        else:
+            response = ERROR_REQUEST_METHOD
     except ValueError:
-        pass
-    except Exception as e:
-        print(e)
+        response = ERROR_DATA
+    except KeyError:
+        response = ERROR_PARAM
     finally:
-        # return HttpResponse(json.dumps(response))
-
-        pass
+        return HttpResponse(json.dumps(response, ensure_ascii=False))

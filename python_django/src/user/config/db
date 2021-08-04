@@ -1,0 +1,13 @@
+test:
+  host: 127.0.0.1
+  user: root
+  port: 3306
+  db: lx
+  password: liuxu263
+
+live:
+  host: 127.0.0.1
+  user: root
+  port: 3306
+  db: lx
+  password: liuxu263

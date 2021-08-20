@@ -10,6 +10,9 @@ from yaml.loader import FullLoader
 class MysqlManager(object):
 
     def __init__(self, env):
+        """
+        :param env:
+        """
         base_file = os.path.abspath(
             os.path.dirname(os.path.dirname(os.path.dirname((os.path.dirname(os.path.dirname(__file__)))))))
         with open(base_file + '/python_django/src/user/config/db') as file:
@@ -31,7 +34,7 @@ class MysqlManager(object):
             "port": self.__port
         }
         self.__connect = MySQLdb.connect(**params)
-        self.__cursor = self.__connect.cursor()
+        self.__cursor = self.__connect.cursor(MySQLdb.cursors.DictCursor)
 
     def _close_db(self):
         self.__cursor.close()
@@ -49,9 +52,9 @@ class MysqlManager(object):
             self.__cursor.execute(sql, params)
             result = self.__cursor.rowcount
             self.__connect.commit()
-        except Exception as error:
-            print(error)
+        except Exception:
             self.__connect.rollback()
+            raise KeyError
         finally:
             self._close_db()
             return result
@@ -62,14 +65,13 @@ class MysqlManager(object):
         :param params: tuple
         :return:
         """
-        print(3)
         self._connect_db()
         result = None
         try:
             self.__cursor.execute(sql, params)
             result = self.__cursor.fetchall()
-        except Exception as error:
-            print(error)
+        except Exception:
+            raise KeyError
         finally:
             self._close_db()
             return result

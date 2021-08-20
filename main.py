@@ -6,13 +6,13 @@ import os
 import time
 
 if __name__ == '__main__':
+    base_file = os.path.abspath(os.path.dirname(__file__))
     # mode1
-    # status = os.system("sh ./bin/python_django/sh/start_server")
+    # status = os.system("sh " + base_file + "./bin/python_django/sh/start_server")
     # if status != 0:
     #     print("服务器启动异常")
 
     # mode2
-    base_file = os.path.abspath(os.path.dirname(__file__))
     try:
         pid = ''.join(os.popen("lsof -i:8000 | awk '{print $2}' | sed -n '2p'").read())[:-1]
         if pid != '':

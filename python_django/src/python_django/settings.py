@@ -16,9 +16,9 @@ import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 sys.path.append("../")
 sys.path.insert(0, os.path.join(BASE_DIR, 'python_django'))
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'python_django',
     'user',
-    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -146,3 +145,93 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# 得先确保项目根目录下有一个logs目录，logs目录用来存储日志文件
+log_path = os.path.dirname(BASE_DIR)
+LOGGING = {
+    # 配置一个版本号
+    'version': 1,
+    # 配置为False，表示不禁用所有logging实例
+    'disable_existing_loggers': False,
+    # 通过formatter属性来配置日志的输出格式
+    # formatter中的每一个键对应一个特定的输出格式
+    'formatters': {
+        # 详细的日志格式
+        'verbose': {
+            'format': '[%(asctime)s][%(threadName)s:%(thread)d][task_id:%(name)s][%(filename)s:%(lineno)d]'
+                      '[%(levelname)s][%(message)s]'
+        },
+        # 标准的日志格式
+        'standard': {
+            'format': '[%(levelname)s][%(asctime)s][%(filename)s:%(lineno)d]%(message)s'
+        },
+        # 简单的日志格式
+        'simple': {
+            'format': '[%(levelname)s][ %(message)s]'
+        },
+    },
+    'filters': {
+    },
+    'handlers': {
+        # 配置default，表示默认的日志处理方法
+        'info': {
+            # 配置日志级别为INFO
+            'level': 'INFO',
+            # 使用RotatingFileHandler来进行日志的滚动处理
+            'class': 'logging.handlers.RotatingFileHandler',
+            # 配置日志的输出文件
+            'filename': os.path.join(log_path + '/output/logs/', "info.log"),
+            # 配置日志文件的最大大小，超出阈值即开始切日志
+            'maxBytes': 1024 * 1024 * 50,
+            # 配置日志文件的备份数目
+            'backupCount': 3,
+            # 引用的是formatter中的verbose
+            'formatter': 'verbose',
+            # 配置日志文件的字符编码为utf-8
+            'encoding': 'utf-8',
+        },
+        # 专门用来记错误日志
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(log_path + '/output/logs/', "error.log"),
+            'maxBytes': 1024 * 1024 * 50,
+            'backupCount': 5,
+            'formatter': 'standard',
+            'encoding': 'utf-8',
+        },
+        'console': {
+            'level': 'INFO',  # 日志的级别
+            'class': 'logging.StreamHandler',  #
+            'formatter': 'simple'  # 使用哪种日志格式
+        },
+
+    },
+    # loggers的每一个键表示一个logging实例
+    'loggers': {
+        'django': {
+            # 引用handlers中配置的日志处理方式
+            'handlers': ['info'],
+            # 日志级别
+            'level': 'INFO',
+            # propagate表示是否向更高级别的logger传递
+            'propagate': False,
+        },
+        'error': {
+            # 引用handlers中配置的日志处理方式
+            'handlers': ['error'],
+            # 日志级别
+            'level': 'ERROR',
+            # propagate表示是否向更高级别的logger传递
+            'propagate': True,
+        },
+        'test': {
+            # 引用handlers中配置的日志处理方式
+            'handlers': ['console'],
+            # 日志级别
+            'level': 'INFO',
+            #  propagate表示是否向更高级别的logger传递
+            'propagate': False,
+        }
+    }
+}

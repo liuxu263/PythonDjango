@@ -2,13 +2,16 @@ import json
 
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from django.http import QueryDict
 
 from python_django.config.response_code_msg import ERROR_REQUEST_METHOD
 from python_django.config.response_code_msg import ERROR_PARAM
 from python_django.config.response_code_msg import ERROR_DATA
 from python_django.config.response_code_msg import SUCCESS
+from ..services import services3
 
-from ..services import services1
+
+# from ..services import services4
 
 
 # Create your views here.
@@ -27,13 +30,7 @@ def session(request):
         # PUT /session # 更新会话信息
         # DELETE /session # 销毁当前会话（登出）
         if request.method == "POST":
-            env = request.POST.get["env"]
-            data = services1.service1_select(env)
-            if data:
-                response = SUCCESS
-                response["data"] = data
-            else:
-                raise ValueError
+            return HttpResponse("post")
         if request.method == "GET":
             return HttpResponse("get")
         if request.method == "PUT":
@@ -54,43 +51,63 @@ def session(request):
 def user(request, user_id):
     response = {}
     try:
-        # GET /user1/:id # 获取id用户的信息
-        # POST /user1 # 创建新的用户（注册）
-        # PUT /user1/:id # 更新id用户的信息
-        # DELETE /user1/:id # 删除id用户（注销）
+        # GET /user/:id # 获取id用户的信息
         if request.method == "GET":
-            if not user_id:
+            env = request.GET["env"]
+            if not user_id or not env:
                 raise KeyError
-            env = request.POST.get["env"]
-            data = services1.service1_select(env)
+            if user_id != services3.service3_get_user_id(env, user_id):
+                raise KeyError
+            data = services3.service3_get_user(env, user_id)
             if data:
+                response = SUCCESS
                 response["data"] = data
             else:
                 raise ValueError
+        # POST /user # 创建新的用户（注册）
         elif request.method == "POST":
-            if not user_id:
-                raise KeyError
             env = request.POST["env"]
-            data = services1.service1_update(env)
+            password = request.POST["password"]
+            username = request.POST["username"]
+            email = request.POST["email"]
+            create_time = request.POST["create_time"]
+            if not env or not user_id or not password or not username or not email or not create_time:
+                raise KeyError
+            data = services3.service3_create_user(env, user_id, password, username, email, create_time)
             if data:
+                response = SUCCESS
                 response["data"] = data
             else:
                 raise ValueError
+        # PUT /user/:id # 更新id用户的信息
         elif request.method == "PUT":
-            if not user_id:
+            put = QueryDict(request.body)
+            env = put.get("env")
+            password = put.get("password")
+            username = put.get("username")
+            email = put.get("email")
+            create_time = put.get("create_time")
+            if not env or not user_id or not password or not username or not email or not create_time:
                 raise KeyError
-            env = request.POST["env"]
-            data = services1.service1_insert(env)
+            if user_id != services3.service3_get_user_id(env, user_id):
+                raise KeyError
+            data = services3.service3_update_user(env, user_id, password, username, email, create_time)
             if data:
+                response = SUCCESS
                 response["data"] = data
             else:
                 raise ValueError
+        # DELETE /user/:id # 删除id用户（注销）
         elif request.method == "DELETE":
-            if not user_id:
+            delete = QueryDict(request.body)
+            env = delete.get("env")
+            if not env or not user_id:
                 raise KeyError
-            env = request.POST["env"]
-            data = services1.service1_delete(env)
+            if user_id != services3.service3_get_user_id(env, user_id):
+                raise KeyError
+            data = services3.service3_delete_user(env, user_id)
             if data:
+                response = SUCCESS
                 response["data"] = data
             else:
                 raise ValueError

@@ -12,10 +12,10 @@ from sqlalchemy.orm import sessionmaker
 
 class MysqlManager(object):
 
-    def __init__(self, env):
+    def __init__(self, env, service):
         base_file = os.path.abspath(
             os.path.dirname(os.path.dirname(os.path.dirname((os.path.dirname(os.path.dirname(__file__)))))))
-        with open(base_file + '/python_django/src/user/config/db') as file:
+        with open(base_file + '/config/' + service + '/db') as file:
             db = yaml.load(file.read(), Loader=FullLoader)
         self.__database_name = db[env]["db"]
         self.__db_user = db[env]["user"]

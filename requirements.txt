@@ -11,5 +11,5 @@ PyYAML==5.4.1
 redis==3.5.3
 six==1.16.0
 SQLAlchemy==1.4.22
-sqlparse==0.4.1
+sqlparse==0.4.2
 tabulate==0.8.9

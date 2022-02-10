@@ -1,5 +1,5 @@
 asgiref==3.4.1
-Django==3.2.6
+Django==3.2.12
 djangorestframework==3.12.4
 greenlet==1.1.1
 kazoo==2.8.0
